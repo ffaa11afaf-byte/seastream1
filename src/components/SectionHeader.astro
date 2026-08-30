@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  href?: string;
+}
+
+const { title, href = "#" } = Astro.props;
+---
+
+<div class="mb-8 flex items-center justify-between">
+  <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">{title}</h2>
+  <a
+    href={href}
+    class="text-sm font-medium text-accent transition-colors hover:text-accent-hover"
+  >
+    عرض الكل
+  </a>
+</div>

@@ -1,0 +1,211 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroSliderSection from "../components/HeroSliderSection.astro";
+import EpisodeCard from "../components/EpisodeCard.astro";
+import AnimeCard from "../components/AnimeCard.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import type { FeaturedAnime, Episode, PopularAnime } from "../components/types";
+
+const featuredAnime: FeaturedAnime[] = [
+  {
+    title: "هجوم العمالقة",
+    description:
+      "في عالم تحاصره العمالقة التي تلتهم البشر، يقاتل إيرين وصديقاه للكشف عن الحقيقة المظلمة وراء الأسوار التي تحميهم.",
+    poster:
+      "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    rating: "9.1",
+  },
+  {
+    title: "قاتل الشياطين",
+    description:
+      "بعد فقدانه لعائلته على يد الشياطين، ينضمم تانجيرو إلى فيلق قتلة الشياطين لإنقاذ أخته وإعادة تحويلها لبشر.",
+    poster:
+      "https://images.pexels.com/photos/723425/pexels-photo-723425.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    rating: "8.7",
+  },
+  {
+    title: "ون بيس",
+    description:
+      "مغامرات لوفي وطاقم قراصنة قبعة القش بحثاً عن الكنز الأسطوري ون بيس ليصبح ملك القراصنة في عالم مليء بالمخاطر.",
+    poster:
+      "https://images.pexels.com/photos/1000653/pexels-photo-1000653.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    rating: "9.0",
+  },
+];
+
+const latestEpisodes: Episode[] = [
+  {
+    number: "12",
+    title: "النصر الأخير",
+    anime: "قاتل الشياطين",
+    poster:
+      "https://images.pexels.com/photos/723425/pexels-photo-723425.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "9.3",
+  },
+  {
+    number: "08",
+    title: "السيف المكسور",
+    anime: "ساموراي تشامبلو",
+    poster:
+      "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.5",
+  },
+  {
+    number: "23",
+    title: "ما وراء البحر",
+    anime: "ون بيس",
+    poster:
+      "https://images.pexels.com/photos/1000653/pexels-photo-1000653.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "9.0",
+  },
+  {
+    number: "05",
+    title: "ظلال الماضي",
+    anime: "جوجوتسو كايسن",
+    poster:
+      "https://images.pexels.com/photos/1108544/pexels-photo-1108544.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.9",
+  },
+  {
+    number: "17",
+    title: "الوعد المنسي",
+    anime: "ملاك الحرب",
+    poster:
+      "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.2",
+  },
+  {
+    number: "03",
+    title: "الصحوة",
+    anime: "مذكرة الموت",
+    poster:
+      "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "9.4",
+  },
+];
+
+const popularAnime: PopularAnime[] = [
+  {
+    title: "مذكرة الموت",
+    genre: "غموض · نفسي",
+    poster:
+      "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "9.4",
+  },
+  {
+    title: "نانتسو",
+    genre: "أكشن · مغامرة",
+    poster:
+      "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.8",
+  },
+  {
+    title: "نينجا كاموي",
+    genre: "أكشن · إثارة",
+    poster:
+      "https://images.pexels.com/photos/1108544/pexels-photo-1108544.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.6",
+  },
+  {
+    title: "البرج الإلهي",
+    genre: "خيال · دراما",
+    poster:
+      "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.3",
+  },
+  {
+    title: "سيف القمر",
+    genre: "أكشن · تاريخي",
+    poster:
+      "https://images.pexels.com/photos/723425/pexels-photo-723425.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "9.1",
+  },
+  {
+    title: "عالم الأحلام",
+    genre: "خيال علمي · رومانسي",
+    poster:
+      "https://images.pexels.com/photos/1000653/pexels-photo-1000653.jpeg?auto=compress&cs=tinysrgb&w=600",
+    rating: "8.7",
+  },
+];
+---
+
+<Layout>
+  <!-- ambient background glow -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+  >
+    <div
+      class="absolute -top-40 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-accent/15 blur-[150px]"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 right-0 h-[28rem] w-[28rem] translate-x-1/4 translate-y-1/4 rounded-full bg-accent-hover/10 blur-[130px]"
+    >
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-7xl px-4 sm:px-6">
+    <!-- welcome hero -->
+    <section class="flex flex-col items-center py-20 text-center md:py-28">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-border-strong bg-card/60 px-4 py-1.5 text-xs font-medium text-muted backdrop-blur-sm"
+      >
+        <span class="relative flex h-2 w-2">
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"
+          ></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+        </span>
+        مرحباً بك في SeaStream
+      </span>
+
+      <h1
+        class="mt-7 text-4xl font-bold leading-[1.15] tracking-tight text-white sm:text-5xl md:text-6xl"
+      >
+        شاهد أفضل الأنمي
+        <span class="text-accent">في مكان واحد</span>
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+        استمتع بآلاف حلقات الأنمي والأفلام بجودة عالية مع ترجمة احترافية،
+        واكتشف أحدث الإصدارات وأشهر المسلسلات في عالم الأنمي.
+      </p>
+
+      <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a href="#featured" class="btn-accent w-full sm:w-auto">
+          ابدأ المشاهدة
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-white">
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a href="#popular" class="btn-ghost w-full sm:w-auto">تصفح المكتبة</a>
+      </div>
+    </section>
+
+    <!-- hero slider: featured anime -->
+    <HeroSliderSection items={featuredAnime} />
+
+    <!-- latest episodes -->
+    <section id="latest" class="py-12">
+      <SectionHeader title="أحدث الحلقات" />
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
+        {latestEpisodes.map((ep) => <EpisodeCard episode={ep} />)}
+      </div>
+    </section>
+
+    <!-- popular anime -->
+    <section id="popular" class="py-12 pb-20">
+      <SectionHeader title="الأكثر مشاهدة" />
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
+        {popularAnime.map((anime) => <AnimeCard anime={anime} />)}
+      </div>
+    </section>
+  </main>
+</Layout>

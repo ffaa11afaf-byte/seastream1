@@ -5,6 +5,26 @@ import EpisodeCard from "../components/EpisodeCard.astro";
 import AnimeCard from "../components/AnimeCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import type { FeaturedAnime, Episode, PopularAnime } from "../components/types";
+import { db } from "../lib/firebase";
+import { collection, getDocs } from "firebase/firestore";
+
+// جلب الأنميات الديناميكية من Firebase
+let firebaseAnimeList: PopularAnime[] = [];
+
+try {
+  const querySnapshot = await getDocs(collection(db, "anime"));
+  firebaseAnimeList = querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      title: data.title || "عنوان غير معروف",
+      genre: data.genre || "أكشن · دراما",
+      poster: data.poster || "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=600",
+      rating: data.rating || "8.0",
+    };
+  });
+} catch (error) {
+  console.error("خطأ في جلب البيانات من Firebase:", error);
+}
 
 const featuredAnime: FeaturedAnime[] = [
   {
@@ -84,7 +104,7 @@ const latestEpisodes: Episode[] = [
   },
 ];
 
-const popularAnime: PopularAnime[] = [
+const defaultPopularAnime: PopularAnime[] = [
   {
     title: "مذكرة الموت",
     genre: "غموض · نفسي",
@@ -128,6 +148,9 @@ const popularAnime: PopularAnime[] = [
     rating: "8.7",
   },
 ];
+
+// دمج القائمة المجلوبة من Firebase مع البيانات الافتراضية
+const displayPopularAnime = firebaseAnimeList.length > 0 ? [...firebaseAnimeList, ...defaultPopularAnime] : defaultPopularAnime;
 ---
 
 <Layout>
@@ -204,7 +227,7 @@ const popularAnime: PopularAnime[] = [
     <section id="popular" class="py-12 pb-20">
       <SectionHeader title="الأكثر مشاهدة" />
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
-        {popularAnime.map((anime) => <AnimeCard anime={anime} />)}
+        {displayPopularAnime.map((anime) => <AnimeCard anime={anime} />)}
       </div>
     </section>
   </main>
